@@ -5,3 +5,10 @@
 filmes:
   type: rest
   resource: App\Controller\FilmesController
+
+filmes_post:
+  path: /filmes
+  methods: [POST]
+  defaults:
+    _controller: App\Controller\FilmesController:postFilmesAction
+    _format: json
