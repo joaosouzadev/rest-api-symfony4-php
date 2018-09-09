@@ -51,4 +51,16 @@ class FilmesController extends AbstractController {
 
 		return $filme;
 	}
+
+	/**
+	* @Rest\View()
+	*/
+	public function getFilmeAction(?Filme $filme) {
+
+		if (null === $filme) {
+			return $this->view(null, 404);
+		}
+
+		return $filme;
+	}
 }
