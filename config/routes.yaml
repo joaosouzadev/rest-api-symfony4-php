@@ -12,3 +12,14 @@ filmes_post:
   defaults:
     _controller: App\Controller\FilmesController:postFilmesAction
     _format: json
+
+pessoas:
+  type: rest
+  resource: App\Controller\PessoasController
+
+pessoas_post:
+  path: /pessoas
+  methods: [POST]
+  defaults:
+    _controller: App\Controller\PessoasController:postPessoasAction
+    _format: json
