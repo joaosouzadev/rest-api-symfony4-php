@@ -23,3 +23,10 @@ pessoas_post:
   defaults:
     _controller: App\Controller\PessoasController:postPessoasAction
     _format: json
+
+filmes_papeis_post:
+  path: /filmes/{filme}/papeis
+  methods: [POST]
+  defaults:
+    _controller: App\Controller\FilmesController:postPapeisFilmesAction
+    _format: json

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Filme;
+use App\Entity\Papel;
 use App\Exception\ValidationException;
 use FOS\RestBundle\Controller\ControllerTrait;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -69,5 +70,33 @@ class FilmesController extends AbstractController {
 		}
 
 		return $filme;
+	}
+
+	/**
+	* @Rest\View()
+	*/
+	public function getPapeisFilmeAction(Filme $filme) {
+
+		return $movie->getPapeis();
+	}
+
+	/**
+	* @Rest\View(statusCode=201)
+	* @ParamConverter("papel", converter="fos_rest.request_body")
+	* @Rest\NoRoute()
+	*/
+	public function postPapeisFilmeAction(Filme $filme, Papel $papel) {
+
+		$papel->setFilme($filme);
+
+		$em = $this->getDoctrine()->getManager();
+
+		$em->persist($papel);
+		$em->flush();
+
+		$em->persist($filme);
+		$em->flush();
+
+		return $papel;
 	}
 }

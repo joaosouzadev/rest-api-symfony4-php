@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -43,6 +45,16 @@ class Filme
      * @Assert\NotBlank()
      */
     private $descricao;
+
+    /**
+    * @ORM\OneToMany(targetEntity="App\Entity\Papel", mappedBy="filme")
+    **/
+    private $papeis;
+
+    public function __construct()
+    {
+        $this->papeis = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -93,6 +105,37 @@ class Filme
     public function setDescricao(?string $descricao): self
     {
         $this->descricao = $descricao;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Papel[]
+     */
+    public function getPapeis(): Collection
+    {
+        return $this->papeis;
+    }
+
+    public function addPapeis(Papel $papeis): self
+    {
+        if (!$this->papeis->contains($papeis)) {
+            $this->papeis[] = $papeis;
+            $papeis->setFilme($this);
+        }
+
+        return $this;
+    }
+
+    public function removePapeis(Papel $papeis): self
+    {
+        if ($this->papeis->contains($papeis)) {
+            $this->papeis->removeElement($papeis);
+            // set the owning side to null (unless already changed)
+            if ($papeis->getFilme() === $this) {
+                $papeis->setFilme(null);
+            }
+        }
 
         return $this;
     }
