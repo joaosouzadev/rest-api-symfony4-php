@@ -28,5 +28,5 @@ filmes_papeis_post:
   path: /filmes/{filme}/papeis
   methods: [POST]
   defaults:
-    _controller: App\Controller\FilmesController:postPapeisFilmesAction
+    _controller: App\Controller\FilmesController:postPapeisFilmeAction
     _format: json

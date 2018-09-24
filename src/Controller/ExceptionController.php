@@ -24,7 +24,7 @@ class ExceptionController extends Controller {
 			return $this->getView($exception->getStatusCode(), $exception->getMessage());
 		}
 
-		return $this->getView(null, 'Aconteceu um erro inesperado.');
+		return $this->getView(null, $exception->getMessage());
 	}
 
 	private function getView(?int $statusCode, $message): View {

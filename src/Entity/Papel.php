@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation as Serializer;
+use App\Annotation as App;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PapelRepository")
@@ -20,11 +21,15 @@ class Papel
 
     /**
     * @ORM\ManyToOne(targetEntity="App\Entity\Pessoa")
+    * @App\DeserializeEntity(type="App\Entity\Pessoa", idField="id", idGetter="getId", setter="setPessoa")
+    * @Assert\NotBlank()
     **/
     private $pessoa;
 
     /**
     * @ORM\Column(type="string")
+    * @Assert\NotBlank()
+    * @Assert\Length(min=3, max=100)
     **/
     private $personagem;
 

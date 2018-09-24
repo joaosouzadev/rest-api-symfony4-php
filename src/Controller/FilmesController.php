@@ -85,7 +85,11 @@ class FilmesController extends AbstractController {
 	* @ParamConverter("papel", converter="fos_rest.request_body")
 	* @Rest\NoRoute()
 	*/
-	public function postPapeisFilmeAction(Filme $filme, Papel $papel) {
+	public function postPapeisFilmeAction(Filme $filme, Papel $papel, ConstraintViolationListInterface $validationErrors) {
+
+		if (count($validationErrors) > 0 ) {
+			throw new ValidationException($validationErrors);
+		}
 
 		$papel->setFilme($filme);
 
