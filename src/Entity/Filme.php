@@ -6,9 +6,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Hateoas\Configuration\Annotation as Hateoas;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FilmeRepository")
+ * @Hateoas\Relation(
+ *      "papeis",
+ *      href=@Hateoas\Route("get_filme_papeis", parameters={"filme" = "expr(object.getId())"})
+ * )
  */
 class Filme
 {
@@ -48,6 +54,7 @@ class Filme
 
     /**
     * @ORM\OneToMany(targetEntity="App\Entity\Papel", mappedBy="filme")
+    * @Serializer\Exclude()
     **/
     private $papeis;
 

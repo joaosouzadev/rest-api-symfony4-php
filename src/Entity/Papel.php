@@ -6,9 +6,15 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation as Serializer;
 use App\Annotation as App;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PapelRepository")
+ * @Serializer\ExclusionPolicy("ALL")
+ * @Hateoas\Relation(
+ *      "person",
+ *      href=@Hateoas\Route("get_pessoa", parameters={"pessoa" = "expr(object.getPessoa().getId())"})
+ * )
  */
 class Papel
 {
@@ -16,6 +22,8 @@ class Papel
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Serializer\Groups({"Default", "Deserialize"})
+     * @Serializer\Expose()
      */
     private $id;
 
@@ -23,6 +31,8 @@ class Papel
     * @ORM\ManyToOne(targetEntity="App\Entity\Pessoa")
     * @App\DeserializeEntity(type="App\Entity\Pessoa", idField="id", idGetter="getId", setter="setPessoa")
     * @Assert\NotBlank()
+    * @Serializer\Groups({"Deserialize"})
+    * @Serializer\Expose()
     **/
     private $pessoa;
 
@@ -30,6 +40,8 @@ class Papel
     * @ORM\Column(type="string")
     * @Assert\NotBlank()
     * @Assert\Length(min=3, max=100)
+    * @Serializer\Groups({"Default", "Deserialize"})
+    * @Serializer\Expose()
     **/
     private $personagem;
 

@@ -75,14 +75,14 @@ class FilmesController extends AbstractController {
 	/**
 	* @Rest\View()
 	*/
-	public function getPapeisFilmeAction(Filme $filme) {
+	public function getFilmePapeisAction(Filme $filme) {
 
-		return $movie->getPapeis();
+		return $filme->getPapeis();
 	}
 
 	/**
 	* @Rest\View(statusCode=201)
-	* @ParamConverter("papel", converter="fos_rest.request_body")
+	* @ParamConverter("papel", converter="fos_rest.request_body", options={"deserializationContext"={"groups"={"Deserialize"}}})
 	* @Rest\NoRoute()
 	*/
 	public function postPapeisFilmeAction(Filme $filme, Papel $papel, ConstraintViolationListInterface $validationErrors) {
