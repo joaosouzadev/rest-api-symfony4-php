@@ -27,28 +27,28 @@ class Filme
 
     /**
      * @ORM\Column(type="string")
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"Default"})
      * @Assert\Length(max=255)
      */
     private $titulo;
 
     /**
      * @ORM\Column(type="smallint")
-     * @Assert\NotBlank()
-     * @Assert\Range(min=1888, max=2020)
+     * @Assert\NotBlank(groups={"Default"})
+     * @Assert\Range(min=1888, max=2020, groups={"Default", "Patch"})
      */
     private $ano;
 
     /**
      * @ORM\Column(type="smallint")
-     * @Assert\NotBlank()
-     * @Assert\Range(min=1, max= 300)
+     * @Assert\NotBlank(groups={"Default"})
+     * @Assert\Range(min=1, max= 300, groups={"Default", "Patch"})
      */
     private $duracao;
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"Default"})
      */
     private $descricao;
 

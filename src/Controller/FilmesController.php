@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\EntityMerger\EntityMerger;
 use App\Entity\Filme;
 use App\Entity\Papel;
 use App\Exception\ValidationException;
@@ -15,6 +16,12 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class FilmesController extends AbstractController {
 
 	use ControllerTrait;
+
+	private $entityMerger;
+
+	public function __construct(EntityMerger $entityMerger) {
+		$this->entityMerger = $entityMerger;
+	}
 
 	/**
 	* @Rest\View()
@@ -102,5 +109,29 @@ class FilmesController extends AbstractController {
 		$em->flush();
 
 		return $papel;
+	}
+
+	/**
+	* @Rest\NoRoute()
+	* @ParamConverter("filmeModificado", converter="fos_rest.request_body", 
+	* options={"validator" = {"groups" = {"Patch"}}})
+	*/
+	public function patchFilmeAction(?Filme $filme, Filme $filmeModificado, ConstraintViolationListInterface $validationErrors) {
+
+		if (null === $filme) {
+			return $this->view(null, 404);
+		}
+
+		if (count($validationErrors) > 0 ) {
+			throw new ValidationException($validationErrors);
+		}
+
+		$this->entityMerger->merge($filme, $filmeModificado);
+
+		$em = $this->getDoctrine()->getManager();
+		$em->persist($filme);
+		$em->flush();
+
+		return $filme;
 	}
 }
