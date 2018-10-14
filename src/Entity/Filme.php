@@ -146,4 +146,27 @@ class Filme
 
         return $this;
     }
+
+    public function addPapei(Papel $papei): self
+    {
+        if (!$this->papeis->contains($papei)) {
+            $this->papeis[] = $papei;
+            $papei->setFilme($this);
+        }
+
+        return $this;
+    }
+
+    public function removePapei(Papel $papei): self
+    {
+        if ($this->papeis->contains($papei)) {
+            $this->papeis->removeElement($papei);
+            // set the owning side to null (unless already changed)
+            if ($papei->getFilme() === $this) {
+                $papei->setFilme(null);
+            }
+        }
+
+        return $this;
+    }
 }
