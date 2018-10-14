@@ -27,6 +27,11 @@ class User implements UserInterface
      */
     private $apiKey;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $password;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -37,7 +42,7 @@ class User implements UserInterface
     }
 
     public function getPassword() {
-
+        return $this->password;
     }
 
     public function getSalt() {
@@ -67,6 +72,13 @@ class User implements UserInterface
     public function setApiKey(string $apiKey): self
     {
         $this->apiKey = $apiKey;
+
+        return $this;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
 
         return $this;
     }
